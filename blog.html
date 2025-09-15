@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Rohit Francis</title>
+    <meta name="description" content="Thoughts on Machine Learning, AI, and Technology by Rohit Francis">
+    
+    <style>
+        :root {
+            --pampas: #F4F3EE;
+            --crail: #C15F3C;
+            --dark-bg: #1a1a1a;
+            --dark-surface: #2a2a2a;
+            --dark-text: #e0e0e0;
+            --light-text: #333;
+            --shadow-light: rgba(193, 95, 60, 0.1);
+            --shadow-dark: rgba(0, 0, 0, 0.3);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--light-text);
+            background: var(--pampas);
+            transition: all 0.3s ease;
+        }
+        
+        body.dark {
+            background: var(--dark-bg);
+            color: var(--dark-text);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(244, 243, 238, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(193, 95, 60, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        body.dark header {
+            background: rgba(26, 26, 26, 0.95);
+            border-bottom: 1px solid rgba(193, 95, 60, 0.2);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--crail);
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: inherit;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: var(--crail);
+        }
+        
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--crail);
+        }
+        
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            background: var(--crail);
+            color: white;
+        }
+        
+        /* Main Content */
+        main {
+            margin-top: 80px;
+            padding: 2rem 0;
+        }
+        
+        .blog-hero {
+            text-align: center;
+            padding: 4rem 0 3rem;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px var(--shadow-light);
+            margin-bottom: 3rem;
+            transition: all 0.3s ease;
+        }
+        
+        body.dark .blog-hero {
+            background: var(--dark-surface);
+            box-shadow: 0 10px 30px var(--shadow-dark);
+        }
+        
+        .blog-hero h1 {
+            font-size: 3rem;
+            color: var(--crail);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .blog-hero p {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Blog Posts Grid */
+        .blog-posts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .blog-post {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px var(--shadow-light);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(193, 95, 60, 0.1);
+        }
+        
+        body.dark .blog-post {
+            background: var(--dark-surface);
+            box-shadow: 0 5px 20px var(--shadow-dark);
+            border: 1px solid rgba(193, 95, 60, 0.2);
+        }
+        
+        .blog-post:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px var(--shadow-light);
+        }
+        
+        body.dark .blog-post:hover {
+            box-shadow: 0 15px 40px var(--shadow-dark);
+        }
+        
+        .blog-post-image {
+            height: 200px;
+            background: linear-gradient(135deg, var(--crail), #a54a2a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .blog-post-image::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.5s ease;
+            opacity: 0;
+        }
+        
+        .blog-post:hover .blog-post-image::before {
+            opacity: 1;
+            animation: shimmer 1s ease-in-out;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        .blog-post-content {
+            padding: 2rem;
+        }
+        
+        .blog-post-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: var(--crail);
+            font-weight: 600;
+        }
+        
+        .blog-post h2 {
+            color: var(--crail);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .blog-post p {
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+        
+        .blog-post-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .blog-tag {
+            background: rgba(193, 95, 60, 0.1);
+            color: var(--crail);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .read-more {
+            color: var(--crail);
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .read-more:hover {
+            transform: translateX(5px);
+        }
+        
+        .read-more::after {
+            content: '→';
+            transition: transform 0.3s ease;
+        }
+        
+        .read-more:hover::after {
+            transform: translateX(3px);
+        }
+        
+        /* Categories */
+        .categories-section {
+            margin: 4rem 0;
+        }
+        
+        .categories-section h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--crail);
+            border-bottom: 2px solid var(--crail);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+        
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .category {
+            background: white;
+            border: 2px solid var(--crail);
+            color: var(--crail);
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        body.dark .category {
+            background: var(--dark-surface);
+        }
+        
+        .category:hover {
+            background: var(--crail);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px var(--shadow-light);
+        }
+        
+        body.dark .category:hover {
+            box-shadow: 0 8px 20px var(--shadow-dark);
+        }
+        
+        /* Newsletter Section */
+        .newsletter-section {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            box-shadow: 0 10px 30px var(--shadow-light);
+            margin: 3rem 0;
+        }
+        
+        body.dark .newsletter-section {
+            background: var(--dark-surface);
+            box-shadow: 0 10px 30px var(--shadow-dark);
+        }
+        
+        .newsletter-section h2 {
+            color: var(--crail);
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+        
+        .newsletter-section p {
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            opacity: 0.8;
+        }
+        
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+            gap: 1rem;
+        }
+        
+        .newsletter-input {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid var(--crail);
+            border-radius: 10px;
+            font-size: 1rem;
+            background: transparent;
+            color: inherit;
+            transition: all 0.3s ease;
+        }
+        
+        .newsletter-input:focus {
+            outline: none;
+            border-color: #a54a2a;
+            transform: scale(1.02);
+        }
+        
+        .newsletter-button {
+            padding: 1rem 2rem;
+            background: var(--crail);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .newsletter-button:hover {
+            background: #a54a2a;
+            transform: translateY(-2px);
+        }
+        
+        /* Footer */
+        footer {
+            background: white;
+            border-top: 1px solid rgba(193, 95, 60, 0.1);
+            padding: 3rem 0;
+            text-align: center;
+            margin-top: 4rem;
+        }
+        
+        body.dark footer {
+            background: var(--dark-surface);
+            border-top: 1px solid rgba(193, 95, 60, 0.2);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .blog-hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .blog-posts {
+                grid-template-columns: 1fr;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+            }
+            
+            .categories {
+                justify-content: center;
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        
+        .stagger-1 { animation-delay: 0.1s; }
+        .stagger-2 { animation-delay: 0.2s; }
+        .stagger-3 { animation-delay: 0.3s; }
+        .stagger-4 { animation-delay: 0.4s; }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="index.html" class="logo">Rohit Francis</a>
+            <ul class="nav-links">
+                <li><a href="index.html">about</a></li>
+                <li><a href="index.html#projects">projects</a></li>
+                <li><a href="#" class="active">blog</a></li>
+                <li><a href="index.html#contact">contact</a></li>
+                <li><button class="theme-toggle" onclick="toggleTheme()">🌙</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="blog-hero fade-in">
+            <h1>My Blog</h1>
+            <p>Thoughts on Machine Learning, AI, Physics, and the fascinating intersection of mathematics and technology. Join me as I explore the frontiers of artificial intelligence and share insights from my journey.</p>
+        </section>
+
+        <section class="categories-section fade-in stagger-1">
+            <h2>explore topics</h2>
+            <div class="categories">
+                <div class="category">Machine Learning</div>
+                <div class="category">Deep Learning</div>
+                <div class="category">AI Research</div>
+                <div class="category">Physics & Math</div>
+                <div class="category">Robotics</div>
+                <div class="category">Tech Thoughts</div>
+            </div>
+        </section>
+
+        <section class="blog-posts fade-in stagger-2">
+            <article class="blog-post" onclick="location.href='post.html?post=hierarchical-reasoning'">
+                <div class="blog-post-image">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <div class="blog-post-content">
+                    <div class="blog-post-meta">
+                        <span>Sep 12, 2025</span>
+                        <span>5 min read</span>
+                    </div>
+                    <h2>The Math Behind Hierarchical Reasoning in AI</h2>
+                    <p>Exploring how mathematical foundations from my physics background help in understanding and building better hierarchical reasoning models. We'll dive into the geometric interpretations of attention mechanisms and how they relate to physical systems.</p>
+                    <div class="blog-post-tags">
+                        <span class="blog-tag">Deep Learning</span>
+                        <span class="blog-tag">Mathematics</span>
+                        <span class="blog-tag">Physics</span>
+                    </div>
+                    <a href="post.html?post=hierarchical-reasoning" class="read-more" onclick="event.stopPropagation()">Read more</a>
+                </div>
+            </article>
+
+            <article class="blog-post" onclick="location.href='post.html?post=multimodal-ai'">
+                <div class="blog-post-image">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="blog-post-content">
+                    <div class="blog-post-meta">
+                        <span>Sep 8, 2025</span>
+                        <span>5 min read</span>
+                    </div>
+                    <h2>Building Multimodal AI: From Theory to Practice</h2>
+                    <p>A deep dive into cross-attention adapters and how they enable seamless integration of different modalities. Learn about the architectural innovations that make multimodal AI systems more efficient and effective.</p>
+                    <div class="blog-post-tags">
+                        <span class="blog-tag">Multimodal AI</span>
+                        <span class="blog-tag">Architecture</span>
+                        <span class="blog-tag">Research</span>
+                    </div>
+                    <a href="post.html?post=multimodal-ai" class="read-more" onclick="event.stopPropagation()">Read more</a>
+                </div>
+            </article>
+
+            <article class="blog-post" onclick="location.href='post.html?post=timed-decoder-blocks'">
+                <div class="blog-post-image">
+                    <i class="fas fa-compress-alt"></i>
+                </div>
+                <div class="blog-post-content">
+                    <div class="blog-post-meta">
+                        <span>Sep 3, 2025</span>
+                        <span>5 min read</span>
+                    </div>
+                    <h2>TimedDecoderBlocks: Compressing Transformer Efficiency</h2>
+                    <p>How temporal dynamics can be leveraged to compress LLM transformer blocks without significant performance loss. A novel approach to making large language models more efficient and accessible.</p>
+                    <div class="blog-post-tags">
+                        <span class="blog-tag">LLM</span>
+                        <span class="blog-tag">Optimization</span>
+                        <span class="blog-tag">Innovation</span>
+                    </div>
+                    <a href="post.html?post=timed-decoder-blocks" class="read-more" onclick="event.stopPropagation()">Read more</a>
+                </div>
+            </article>
+
+            <article class="blog-post" onclick="location.href='post.html?post=timed-decoder-blocks'">
+                <div class="blog-post-image">
+                    <i class="fas fa-flask"></i>
+                </div>
+                <div class="blog-post-content">
+                    <div class="blog-post-meta">
+                        <span>Aug 28, 2025</span>
+                        <span>4 min read</span>
+                    </div>
+                    <h2>From Physics Dreams to AI Reality</h2>
+                    <p>My journey from wanting to be a physicist as a kid to becoming an AI engineer. How the mathematical foundations from physics continue to influence my approach to machine learning problems.</p>
+                    <div class="blog-post-tags">
+                        <span class="blog-tag">Personal</span>
+                        <span class="blog-tag">Career</span>
+                        <span class="blog-tag">Physics</span>
+                    </div>
+                    <a href="post.html?post=hierarchical-reasoning" class="read-more">Read more</a>
+                </div>
+            </article>
+
+            <article class="blog-post">
+                <div class="blog-post-image">
+                    <i class="fas fa-microchip"></i>
+                </div>
+                <div class="blog-post-content">
+                    <div class="blog-post-meta">
+                        <span>Aug 20, 2025</span>
+                        <span>7 min read</span>
+                    </div>
+                    <h2>The Future of Agentic AI</h2>
+                    <p>Exploring the latest advancements in autonomous AI agents and their potential impact on various industries. What does it mean for AI to truly act autonomously and make decisions?</p>
+                    <div class="blog-post-tags">
+                        <span class="blog-tag">Agentic AI</span>
+                        <span class="blog-tag">Automation</span>
+                        <span class="blog-tag">Future Tech</span>
+                    </div>
+                    <a href="post.html?post=hierarchical-reasoning" class="read-more">Read more</a>
+                </div>
+            </article>
+
+            <article class="blog-post">
+                <div class="blog-post-image">
+                    <i class="fas fa-cogs"></i>
+                </div>
+                <div class="blog-post-content">
+                    <div class="blog-post-meta">
+                        <span>Aug 15, 2025</span>
+                        <span>5 min read</span>
+                    </div>
+                    <h2>Open Source ML: Contributing to the Community</h2>
+                    <p>Why open source development is crucial for the ML community and how individual contributions can make a significant impact. Tips for getting started with open source ML projects.</p>
+                    <div class="blog-post-tags">
+                        <span class="blog-tag">Open Source</span>
+                        <span class="blog-tag">Community</span>
+                        <span class="blog-tag">Career Advice</span>
+                    </div>
+                    <a href="post.html?post=hierarchical-reasoning" class="read-more">Read more</a>
+                </div>
+            </article>
+        </section>
+
+        <section class="newsletter-section fade-in stagger-3">
+            <h2>Stay Updated</h2>
+            <p>Get notified about new blog posts and exciting AI developments. No spam, just quality content!</p>
+            <form class="newsletter-form" onsubmit="handleNewsletter(event)">
+                <input type="email" class="newsletter-input" placeholder="Enter your email" required>
+                <button type="submit" class="newsletter-button">Subscribe</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Rohit Francis. Crafted with ❤️ and lots of ☕</p>
+            <p>Sharing knowledge, one post at a time</p>
+        </div>
+    </footer>
+
+    <script>
+        // Theme toggle functionality
+        function toggleTheme() {
+            const body = document.body;
+            const themeToggle = document.querySelector('.theme-toggle');
+            
+            body.classList.toggle('dark');
+            
+            if (body.classList.contains('dark')) {
+                themeToggle.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeToggle.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Load saved theme
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const body = document.body;
+            const themeToggle = document.querySelector('.theme-toggle');
+            
+            if (savedTheme === 'dark') {
+                body.classList.add('dark');
+                themeToggle.textContent = '☀️';
+            } else {
+                themeToggle.textContent = '🌙';
+            }
+        }
+
+        // Newsletter form handler
+        function handleNewsletter(event) {
+            event.preventDefault();
+            const email = event.target.querySelector('.newsletter-input').value;
+            alert(`Thanks for subscribing with ${email}! 🎉`);
+            event.target.reset();
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all fade-in elements
+        document.querySelectorAll('.fade-in').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Add hover effects to blog posts
+        document.querySelectorAll('.blog-post').forEach(post => {
+            post.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            post.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Category filter functionality (you can expand this)
+        document.querySelectorAll('.category').forEach(category => {
+            category.addEventListener('click', function() {
+                // Remove active class from all categories
+                document.querySelectorAll('.category').forEach(cat => {
+                    cat.style.background = '';
+                    cat.style.color = '';
+                });
+                //  Add active state to clicked category
+                this.style.background = 'var(--crail)';
+                this.style.color = 'white';
+                // Here you can add filtering logic for blog posts
+                console.log(`Filtering by: ${this.textContent}`);
+            });
+        });
+        // Initialize theme on page load
+        document.addEventListener('DOMContentLoaded', loadTheme);
+    </script>
+</body>
+</html>

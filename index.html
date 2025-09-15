@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rohit Francis - Machine Learning Engineer</title>
+    <meta name="description" content="Self Taught Machine Learning Engineer specializing in the design and optimization of novel deep learning architectures, experimenting with architectural tricks to push the boundaries of AI.">
+    
+    <style>
+        :root {
+            --pampas: #F4F3EE;
+            --crail: #C15F3C;
+            --dark-bg: #1a1a1a;
+            --dark-surface: #2a2a2a;
+            --dark-text: #e0e0e0;
+            --light-text: #333;
+            --shadow-light: rgba(193, 95, 60, 0.1);
+            --shadow-dark: rgba(0, 0, 0, 0.3);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--light-text);
+            background: var(--pampas);
+            transition: all 0.3s ease;
+        }
+        
+        body.dark {
+            background: var(--dark-bg);
+            color: var(--dark-text);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(244, 243, 238, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(193, 95, 60, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        body.dark header {
+            background: rgba(26, 26, 26, 0.95);
+            border-bottom: 1px solid rgba(193, 95, 60, 0.2);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--crail);
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: inherit;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: var(--crail);
+        }
+        
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--crail);
+        }
+        
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            background: var(--crail);
+            color: white;
+        }
+        
+        /* Main Content */
+        main {
+            margin-top: 80px;
+            padding: 2rem 0;
+        }
+        
+        .hero {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+            align-items: start;
+            margin-bottom: 3rem;
+            min-height: 60vh;
+        }
+        
+        .hero-content {
+            padding-right: 2rem;
+        }
+        
+        .hero-content h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        
+        .hero-content .name {
+            color: var(--crail);
+        }
+        
+        .hero-content .intro {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--crail);
+            font-weight: 600;
+        }
+        
+        .hero-content p {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+            line-height: 1.7;
+        }
+        
+        .role-description {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--crail);
+        }
+        
+        .skills-list {
+            list-style: none;
+            margin: 1.5rem 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 0.5rem;
+        }
+        
+        .skills-list li {
+            padding: 0.5rem 0 0.5rem 1rem;
+            border-left: 3px solid var(--crail);
+            margin: 0.2rem 0;
+            font-size: 0.95rem;
+        }
+        
+        .profile-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px var(--shadow-light);
+            transition: all 0.3s ease;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+        
+        body.dark .profile-section {
+            background: var(--dark-surface);
+            box-shadow: 0 10px 30px var(--shadow-dark);
+        }
+        
+        .profile-image {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--crail);
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .profile-image:hover {
+            transform: scale(1.05);
+        }
+        
+        .location {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--crail);
+            font-weight: 600;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        /* Sections */
+        .section {
+            margin: 4rem 0;
+        }
+        
+        .section h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--crail);
+            border-bottom: 2px solid var(--crail);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+        
+        /* News/Updates */
+        .news-table {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px var(--shadow-light);
+            transition: all 0.3s ease;
+        }
+        
+        body.dark .news-table {
+            background: var(--dark-surface);
+            box-shadow: 0 5px 20px var(--shadow-dark);
+        }
+        
+        .news-item {
+            display: flex;
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(193, 95, 60, 0.1);
+            transition: background 0.3s ease;
+        }
+        
+        .news-item:hover {
+            background: rgba(193, 95, 60, 0.05);
+        }
+        
+        .news-item:last-child {
+            border-bottom: none;
+        }
+        
+        .news-date {
+            min-width: 120px;
+            color: var(--crail);
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        
+        .news-content {
+            flex: 1;
+            margin-left: 1rem;
+        }
+        
+        /* Projects */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .project-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px var(--shadow-light);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(193, 95, 60, 0.1);
+            cursor: pointer;
+        }
+        
+        body.dark .project-card {
+            background: var(--dark-surface);
+            box-shadow: 0 5px 20px var(--shadow-dark);
+            border: 1px solid rgba(193, 95, 60, 0.2);
+        }
+        
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px var(--shadow-light);
+        }
+        
+        body.dark .project-card:hover {
+            box-shadow: 0 15px 40px var(--shadow-dark);
+        }
+        
+        .project-image {
+            text-align: center;
+            font-size: 3rem;
+            color: var(--crail);
+            margin-bottom: 1rem;
+        }
+        
+        .project-card h3 {
+            color: var(--crail);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .project-card p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .project-tag {
+            background: rgba(193, 95, 60, 0.1);
+            color: var(--crail);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        /* Social Links - Separate section */
+        .social-section {
+            margin: 4rem 0;
+            text-align: center;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--crail);
+            color: white;
+            text-decoration: none;
+            font-size: 1.8rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px var(--shadow-light);
+        }
+        
+        body.dark .social-links a {
+            box-shadow: 0 4px 15px var(--shadow-dark);
+        }
+        
+        .social-links a:hover {
+            transform: translateY(-5px) scale(1.1);
+            background: #a54a2a;
+            box-shadow: 0 8px 25px var(--shadow-light);
+        }
+        
+        body.dark .social-links a:hover {
+            box-shadow: 0 8px 25px var(--shadow-dark);
+        }
+        
+        /* Footer */
+        footer {
+            background: white;
+            border-top: 1px solid rgba(193, 95, 60, 0.1);
+            padding: 3rem 0;
+            text-align: center;
+            margin-top: 4rem;
+        }
+        
+        body.dark footer {
+            background: var(--dark-surface);
+            border-top: 1px solid rgba(193, 95, 60, 0.2);
+        }
+        
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+            
+            .hero-content {
+                padding-right: 0;
+            }
+            
+            .profile-section {
+                position: static;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.2rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-image {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .skills-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .social-links {
+                gap: 1rem;
+            }
+            
+            .social-links a {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        
+        .stagger-1 { animation-delay: 0.1s; }
+        .stagger-2 { animation-delay: 0.2s; }
+        .stagger-3 { animation-delay: 0.3s; }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="#" class="logo">Rohit Francis</a>
+            <ul class="nav-links">
+                <li><a href="#" class="active">about</a></li>
+                <li><a href="#projects">projects</a></li>
+                <li><a href="blog.html">blog</a></li>
+                <li><a href="#contact">contact</a></li>
+                <li><button class="theme-toggle" onclick="toggleTheme()">🌙</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="hero fade-in">
+            <div class="hero-content">
+                <!-- <h1><span class="name">Rohit</span> Francis</h1> -->
+                <p class="intro">Here lies my portfolio!</p>
+                
+                <p class="role-description">Machine Learning & AI Engineer <br> Doing founding works at Advop</p>
+                
+                <ul class="skills-list">
+                    <li>PyTorch</li>
+                    <li>HuggingFace</li>
+                    <li>Deep Learning</li>
+                    <li>Model Building, Training, Finetuning</li>
+                    <li>Computer Vision, NLP, Speech Models</li>
+                    <li>Multimodal AI using Adapters</li>
+                    <li>Optimizing LLMs and Deep Learning Models</li>
+                    <li>Agentic AI</li>
+                    <li>Autogen</li>
+                    <li>LlamaIndex</li>
+                    <li>LangChain</li>
+                    <li>FastAPI</li>
+                    <li>Flask</li>
+                    <li>Robotics</li>
+                    <li>Arduino, Raspberry Pi</li>
+                    <li>C, C++, Python</li>
+                    <li>Humanoid Robot Making</li>
+                </ul>
+                
+                <p>I'm a person who wanted to be a <strong>Physicist</strong> as a <strong>kid</strong>.<br>
+                And cause of that I have a really good mathematics background. Which helps me use math most of the times in my Deep Learning Projects</p>
+                
+                <p>So I used to learn, write and make sense of <em>physics equations</em> and I even tried to make my own discoveries.</p>
+                
+                <p>I started coding when I was in 5th or 6th standard in school. Then I got busy exploring every field of science, doing projects like Mini Jet Engine, Arduino-powered robots, and made my first RL powered crawling robot during 12th standard.</p>
+                
+                <p>Then I got into SCT college, made an AI-Robotics Team called Eurekabotics (then called Muskum Pillerum). I did many cool projects at college and got my first internship in first year itself.</p>
+                
+                <p>I worked at a robotics company in my 3rd year, then as an intern at Pathor for 2 months in my final year. During the same time, I became a founding team member of Advop. Then I worked at Pathor as a full-time employee for 2 months before resigning to continue my contributions to Advop.</p>
+                
+                <p>Currently, I am looking for a job that will pay me to keep money on the table.</p>
+            </div>
+            
+            <div class="profile-section fade-in stagger-1">
+                <img src="profile.jpg" alt="Rohit Francis" class="profile-image" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjQzE1RjNDIi8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTEwIiBmb250LWZhbWlseT0iSW50ZXIsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iNDAiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5SRjwvdGV4dD4KPHN2Zz4K'">
+                <div class="location">
+                    <span>📍</span>
+                    <span>Open to Remote & Office Opportunities</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="section fade-in stagger-2">
+            <h2>latest updates</h2>
+            <div class="news-table">
+                <div class="news-item">
+                    <div class="news-date">Sep 15, 2025</div>
+                    <div class="news-content">
+                        Currently working on several exciting projects including Hierarchical Reasoning Models, Multimodal AI with Cross Attention Adapters, Compressing LLM's Transformer blocks with TimedDecoderBlocks, and exploring the latest advancements in Agentic AI.
+                    </div>
+                </div>
+                <div class="news-item">
+                    <div class="news-date">Aug 28, 2025</div>
+                    <div class="news-content">
+                        Excited to share that I'm actively contributing to open source projects and building innovative solutions. Check out my <a href="https://github.com/Rohit909-creator" style="color: var(--crail);">GitHub profile</a>!
+                    </div>
+                </div>
+                <div class="news-item">
+                    <div class="news-date">Aug 10, 2025</div>
+                    <div class="news-content">
+                        Launched this new portfolio website with a focus on clean design and optimal performance ✨
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section fade-in stagger-3" id="projects">
+            <h2>featured projects</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-image">
+                        <i class="fas fa-microphone"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3>Speaksense</h3>
+                        <p>A Multimodal AI framework which uses Audio and Video to do turn taking based conversation with humanoid robots, thus replacing wakewords. Ideal for robots in Debates, Panel Discussion.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">PyTorch</span>
+                            <span class="project-tag">Speech Recognition</span>
+                            <span class="project-tag">NLP</span>
+                            <span class="project-tag">Real-time</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-image">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3>LazyGrader</h3>
+                        <p>An intelligent automated grading system that uses semantic embeddings (with a neat equation trick) and math engines to evaluate student assignments, providing detailed feedback and maintaining consistency across all submissions.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">NLP</span>
+                            <span class="project-tag">BERT</span>
+                            <span class="project-tag">Education</span>
+                            <span class="project-tag">Automation</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-image">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3>Retrieval Augmented Decoding</h3>
+                        <p>A novel approach to enhance language model generation by incorporating relevant external knowledge during decoding, reducing hallucinations and improving factual accuracy.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">LLM</span>
+                            <span class="project-tag">RAG</span>
+                            <span class="project-tag">Research</span>
+                            <span class="project-tag">Transformers</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-image">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3>MrRobot</h3>
+                        <p>An AI powered RAT (Reverse Access Trojan) to which you can communicate remotely and it's basically open-interpreter for hacking target devices.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">AI Agents</span>
+                            <span class="project-tag">RL</span>
+                            <span class="project-tag">LangChain</span>
+                            <span class="project-tag">Automation</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="social-section" id="contact">
+            <h2>connect with me</h2>
+            <div class="social-links">
+                <a href="https://github.com/Rohit909-creator" target="_blank" title="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://linkedin.com/in/rohit-francis" target="_blank" title="LinkedIn">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="https://twitter.com/rohitfrancis" target="_blank" title="Twitter">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="mailto:francisrohit200@gmail.com" title="Email">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Rohit Francis. Crafted with ❤️ and lots of ☕</p>
+            <p>Powered by creativity and clean code</p>
+        </div>
+    </footer>
+
+    <script>
+        // Theme toggle functionality
+        function toggleTheme() {
+            const body = document.body;
+            const themeToggle = document.querySelector('.theme-toggle');
+            
+            body.classList.toggle('dark');
+            
+            if (body.classList.contains('dark')) {
+                themeToggle.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeToggle.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Load saved theme
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const body = document.body;
+            const themeToggle = document.querySelector('.theme-toggle');
+            
+            if (savedTheme === 'dark') {
+                body.classList.add('dark');
+                themeToggle.textContent = '☀️';
+            } else {
+                themeToggle.textContent = '🌙';
+            }
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all fade-in elements
+        document.querySelectorAll('.fade-in').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Initialize theme on page load
+        document.addEventListener('DOMContentLoaded', loadTheme);
+
+        // Add hover effects to project cards
+        document.querySelectorAll('.project-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

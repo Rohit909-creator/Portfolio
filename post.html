@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Post - Rohit Francis</title>
+    <meta name="description" content="Read the latest thoughts on Machine Learning, AI, and Technology">
+    
+    <style>
+        :root {
+            --pampas: #F4F3EE;
+            --crail: #C15F3C;
+            --dark-bg: #1a1a1a;
+            --dark-surface: #2a2a2a;
+            --dark-text: #e0e0e0;
+            --light-text: #333;
+            --shadow-light: rgba(193, 95, 60, 0.1);
+            --shadow-dark: rgba(0, 0, 0, 0.3);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--light-text);
+            background: var(--pampas);
+            transition: all 0.3s ease;
+        }
+        
+        body.dark {
+            background: var(--dark-bg);
+            color: var(--dark-text);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(244, 243, 238, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(193, 95, 60, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        body.dark header {
+            background: rgba(26, 26, 26, 0.95);
+            border-bottom: 1px solid rgba(193, 95, 60, 0.2);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--crail);
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: inherit;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--crail);
+        }
+        
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            background: var(--crail);
+            color: white;
+        }
+        
+        /* Back Button */
+        .back-button {
+            margin-top: 100px;
+            margin-bottom: 2rem;
+        }
+        
+        .back-button a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--crail);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            background: rgba(193, 95, 60, 0.1);
+        }
+        
+        .back-button a:hover {
+            background: var(--crail);
+            color: white;
+            transform: translateX(-5px);
+        }
+        
+        /* Article Container */
+        .article-container {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .article-main {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px var(--shadow-light);
+            transition: all 0.3s ease;
+        }
+        
+        body.dark .article-main {
+            background: var(--dark-surface);
+            box-shadow: 0 10px 30px var(--shadow-dark);
+        }
+        
+        .article-header {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid rgba(193, 95, 60, 0.1);
+        }
+        
+        .article-meta {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1rem;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .article-date, .article-reading-time {
+            color: var(--crail);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .article-title {
+            font-size: 2.5rem;
+            color: var(--crail);
+            margin-bottom: 1rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        
+        .article-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .article-tag {
+            background: rgba(193, 95, 60, 0.1);
+            color: var(--crail);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .article-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .article-content h1,
+        .article-content h2,
+        .article-content h3,
+        .article-content h4 {
+            color: var(--crail);
+            margin: 2rem 0 1rem 0;
+            font-weight: 600;
+        }
+        
+        .article-content h1 { font-size: 2rem; }
+        .article-content h2 { font-size: 1.7rem; }
+        .article-content h3 { font-size: 1.4rem; }
+        .article-content h4 { font-size: 1.2rem; }
+        
+        .article-content p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .article-content ul, .article-content ol {
+            margin: 1.5rem 0;
+            padding-left: 2rem;
+        }
+        
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .article-content blockquote {
+            border-left: 4px solid var(--crail);
+            padding-left: 2rem;
+            margin: 2rem 0;
+            font-style: italic;
+            background: rgba(193, 95, 60, 0.05);
+            padding: 1.5rem 2rem;
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .article-content code {
+            background: rgba(193, 95, 60, 0.1);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 0.9em;
+        }
+        
+        .article-content pre {
+            background: rgba(193, 95, 60, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+        
+        .article-content pre code {
+            background: none;
+            padding: 0;
+        }
+        
+        .article-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+            box-shadow: 0 5px 20px var(--shadow-light);
+        }
+        
+        body.dark .article-content img {
+            box-shadow: 0 5px 20px var(--shadow-dark);
+        }
+        
+        /* Sidebar */
+        .article-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            height: fit-content;
+            position: sticky;
+            top: 120px;
+        }
+        
+        .sidebar-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px var(--shadow-light);
+            transition: all 0.3s ease;
+        }
+        
+        body.dark .sidebar-section {
+            background: var(--dark-surface);
+            box-shadow: 0 5px 20px var(--shadow-dark);
+        }
+        
+        .sidebar-section h3 {
+            color: var(--crail);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .table-of-contents ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .table-of-contents li {
+            margin: 0.5rem 0;
+        }
+        
+        .table-of-contents a {
+            color: inherit;
+            text-decoration: none;
+            padding: 0.3rem 0;
+            display: block;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            padding-left: 1rem;
+        }
+        
+        .table-of-contents a:hover,
+        .table-of-contents a.active {
+            color: var(--crail);
+            border-left-color: var(--crail);
+            background: rgba(193, 95, 60, 0.05);
+        }
+        
+        .related-posts .post-link {
+            display: block;
+            color: inherit;
+            text-decoration: none;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(193, 95, 60, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .related-posts .post-link:hover {
+            color: var(--crail);
+        }
+        
+        .related-posts .post-link:last-child {
+            border-bottom: none;
+        }
+        
+        .share-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .share-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .share-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .share-btn.twitter { background: #1DA1F2; }
+        .share-btn.linkedin { background: #0077B5; }
+        .share-btn.facebook { background: #1877F2; }
+        .share-btn.email { background: var(--crail); }
+        
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: var(--crail);
+        }
+        
+        .loading::after {
+            content: '';
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(193, 95, 60, 0.1);
+            border-top: 4px solid var(--crail);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-left: 1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Error State */
+        .error {
+            background: #fee;
+            color: #c33;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            margin: 2rem 0;
+        }
+        
+        body.dark .error {
+            background: #533;
+            color: #fcc;
+        }
+        
+        /* Footer */
+        footer {
+            background: white;
+            border-top: 1px solid rgba(193, 95, 60, 0.1);
+            padding: 3rem 0;
+            text-align: center;
+            margin-top: 4rem;
+        }
+        
+        body.dark footer {
+            background: var(--dark-surface);
+            border-top: 1px solid rgba(193, 95, 60, 0.2);
+        }
+        
+        /* Responsive */
+        @media (max-width: 968px) {
+            .article-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .article-sidebar {
+                position: static;
+                order: -1;
+            }
+            
+            .article-main {
+                padding: 2rem;
+            }
+            
+            .article-title {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .article-main {
+                padding: 1.5rem;
+            }
+            
+            .article-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="index.html" class="logo">Rohit Francis</a>
+            <ul class="nav-links">
+                <li><a href="index.html">about</a></li>
+                <li><a href="index.html#projects">projects</a></li>
+                <li><a href="blog.html">blog</a></li>
+                <li><a href="index.html#contact">contact</a></li>
+                <li><button class="theme-toggle" onclick="toggleTheme()">🌙</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="back-button">
+            <a href="blog.html">
+                <i class="fas fa-arrow-left"></i>
+                Back to Blog
+            </a>
+        </div>
+
+        <div id="loading" class="loading">
+            Loading article...
+        </div>
+
+        <div id="error" class="error" style="display: none;">
+            <h2>Oops! Article not found</h2>
+            <p>The article you're looking for doesn't exist or couldn't be loaded.</p>
+            <a href="blog.html" style="color: var(--crail);">← Back to Blog</a>
+        </div>
+
+        <div id="article-container" class="article-container" style="display: none;">
+            <article class="article-main">
+                <header class="article-header">
+                    <div class="article-meta">
+                        <span id="article-date" class="article-date"></span>
+                        <span id="article-reading-time" class="article-reading-time"></span>
+                    </div>
+                    <h1 id="article-title" class="article-title"></h1>
+                    <div id="article-tags" class="article-tags"></div>
+                </header>
+                <div id="article-content" class="article-content"></div>
+            </article>
+
+            <aside class="article-sidebar">
+                <div class="sidebar-section table-of-contents">
+                    <h3>Table of Contents</h3>
+                    <ul id="toc-list"></ul>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3>Share this post</h3>
+                    <div class="share-buttons">
+                        <a href="#" class="share-btn twitter" id="twitter-share" target="_blank">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="share-btn linkedin" id="linkedin-share" target="_blank">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="#" class="share-btn facebook" id="facebook-share" target="_blank">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" class="share-btn email" id="email-share">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="sidebar-section related-posts">
+                    <h3>Related Posts</h3>
+                    <div id="related-posts-list">
+                        <a href="?post=multimodal-ai" class="post-link">Building Multimodal AI: From Theory to Practice</a>
+                        <a href="?post=physics-to-ai" class="post-link">From Physics Dreams to AI Reality</a>
+                        <a href="?post=agentic-ai" class="post-link">The Future of Agentic AI</a>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Rohit Francis. Crafted with ❤️ and lots of ☕</p>
+            <p>Sharing knowledge, one post at a time</p>
+        </div>
+    </footer>
+
+    <script>
+        // Theme toggle functionality
+        function toggleTheme() {
+            const body = document.body;
+            const themeToggle = document.querySelector('.theme-toggle');
+            
+            body.classList.toggle('dark');
+            
+            if (body.classList.contains('dark')) {
+                themeToggle.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeToggle.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Load saved theme
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const body = document.body;
+            const themeToggle = document.querySelector('.theme-toggle');
+            
+            if (savedTheme === 'dark') {
+                body.classList.add('dark');
+                themeToggle.textContent = '☀️';
+            } else {
+                themeToggle.textContent = '🌙';
+            }
+        }
+
+        // Get URL parameters
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        // Calculate reading time
+        function calculateReadingTime(content) {
+            const wordsPerMinute = 200;
+            const words = content.trim().split(/\s+/).length;
+            const minutes = Math.ceil(words / wordsPerMinute);
+            return `${minutes} min read`;
+        }
+
+        // Generate table of contents
+        function generateTableOfContents(content) {
+            const tocList = document.getElementById('toc-list');
+            tocList.innerHTML = '';
+            
+            const headings = content.querySelectorAll('h1, h2, h3, h4');
+            
+            headings.forEach((heading, index) => {
+                const id = `heading-${index}`;
+                heading.id = id;
+                
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = `#${id}`;
+                a.textContent = heading.textContent;
+                a.style.paddingLeft = `${(parseInt(heading.tagName.charAt(1)) - 1) * 1}rem`;
+                
+                li.appendChild(a);
+                tocList.appendChild(li);
+            });
+        }
+
+        // Setup share buttons
+        function setupShareButtons(title) {
+            const url = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent(title);
+            
+            document.getElementById('twitter-share').href = 
+                `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
+            document.getElementById('linkedin-share').href = 
+                `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
+            document.getElementById('facebook-share').href = 
+                `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+            document.getElementById('email-share').href = 
+                `mailto:?subject=${text}&body=Check out this article: ${url}`;
+        }
+
+        // Load blog post content
+        async function loadBlogPost() {
+            const postId = getUrlParameter('post');
+            
+            if (!postId) {
+                showError();
+                return;
+            }
+
+            try {
+                // First try to load JSON metadata
+                let postData;
+                try {
+                    const metadataResponse = await fetch(`posts/${postId}.json`);
+                    if (metadataResponse.ok) {
+                        postData = await metadataResponse.json();
+                    }
+                } catch (e) {
+                    // If JSON fails, we'll use defaults
+                    postData = {
+                        title: "Blog Post",
+                        date: new Date().toLocaleDateString(),
+                        tags: ["AI", "Technology"],
+                        readingTime: "5 min read"
+                    };
+                }
+
+                // Try to load markdown content
+                let content = '';
+                try {
+                    const contentResponse = await fetch(`posts/${postId}.md`);
+                    if (contentResponse.ok) {
+                        const markdownContent = await contentResponse.text();
+                        content = marked.parse(markdownContent);
+                    } else {
+                        // Fallback to text file
+                        const textResponse = await fetch(`posts/${postId}.txt`);
+                        if (textResponse.ok) {
+                            const textContent = await textResponse.text();
+                            content = textContent.replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>');
+                            content = `<p>${content}</p>`;
+                        } else {
+                            throw new Error('Content not found');
+                        }
+                    }
+                } catch (e) {
+                    throw new Error('Failed to load content');
+                }
+
+                // Populate the page
+                document.getElementById('article-title').textContent = postData.title;
+                document.getElementById('article-date').textContent = postData.date;
+                document.getElementById('article-reading-time').textContent = 
+                    postData.readingTime || calculateReadingTime(content);
+
+                // Tags
+                const tagsContainer = document.getElementById('article-tags');
+                tagsContainer.innerHTML = '';
+                (postData.tags || []).forEach(tag => {
+                    const tagElement = document.createElement('span');
+                    tagElement.className = 'article-tag';
+                    tagElement.textContent = tag;
+                    tagsContainer.appendChild(tagElement);
+                });
+
+                // Content
+                const contentContainer = document.getElementById('article-content');
+                contentContainer.innerHTML = content;
+
+                // Generate TOC
+                generateTableOfContents(contentContainer);
+
+                // Setup sharing
+                setupShareButtons(postData.title);
+
+                // Update page title
+                document.title = `${postData.title} - Rohit Francis`;
+
+                // Show article
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('article-container').style.display = 'grid';
+
+            } catch (error) {
+                console.error('Error loading blog post:', error);
+                showError();
+            }
+        }
+
+        function showError() {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('error').style.display = 'block';
+        }
+
+        // Smooth scroll for TOC links
+        document.addEventListener('click', function(e) {
+            if (e.target.matches('#toc-list a')) {
+                e.preventDefault();
+                const target = document.querySelector(e.target.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+        });
+
+        // Highlight active TOC item on scroll
+        function updateActiveTocItem() {
+            const headings = document.querySelectorAll('h1[id], h2[id], h3[id], h4[id]');
+            const tocLinks = document.querySelectorAll('#toc-list a');
+            
+            let activeIndex = 0;
+            headings.forEach((heading, index) => {
+                const rect = heading.getBoundingClientRect();
+                if (rect.top <= 150) {
+                    activeIndex = index;
+                }
+            });
+            
+            tocLinks.forEach((link, index) => {
+                link.classList.toggle('active', index === activeIndex);
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTheme();
+            loadBlogPost();
+            
+            // Update active TOC item on scroll
+            window.addEventListener('scroll', updateActiveTocItem);
+        });
+    </script>
+</body>
+</html>
