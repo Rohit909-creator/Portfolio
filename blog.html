@@ -484,12 +484,11 @@
         <section class="categories-section fade-in stagger-1">
             <h2>explore topics</h2>
             <div class="categories">
-                <div class="category">Machine Learning</div>
-                <div class="category">Deep Learning</div>
-                <div class="category">AI Research</div>
-                <div class="category">Physics & Math</div>
-                <div class="category">Robotics</div>
-                <div class="category">Tech Thoughts</div>
+                <div class="category" id="all">All</div>
+                <div class="category" id="ml">Machine Learning</div>
+                <div class="category" id="dl">Deep Learning</div>
+                <div class="category" id="ai">AI Research</div>
+                <div class="category" id="physics">Physics & Math</div>
             </div>
         </section>
 
@@ -501,7 +500,7 @@
                 <div class="blog-post-content">
                     <div class="blog-post-meta">
                         <span>Sep 12, 2025</span>
-                        <span>5 min read</span>
+                        <span>8 min read</span>
                     </div>
                     <h2>The Math Behind Hierarchical Reasoning in AI</h2>
                     <p>Exploring how mathematical foundations from my physics background help in understanding and building better hierarchical reasoning models. We'll dive into the geometric interpretations of attention mechanisms and how they relate to physical systems.</p>
@@ -521,7 +520,7 @@
                 <div class="blog-post-content">
                     <div class="blog-post-meta">
                         <span>Sep 8, 2025</span>
-                        <span>5 min read</span>
+                        <span>6 min read</span>
                     </div>
                     <h2>Building Multimodal AI: From Theory to Practice</h2>
                     <p>A deep dive into cross-attention adapters and how they enable seamless integration of different modalities. Learn about the architectural innovations that make multimodal AI systems more efficient and effective.</p>
@@ -541,7 +540,7 @@
                 <div class="blog-post-content">
                     <div class="blog-post-meta">
                         <span>Sep 3, 2025</span>
-                        <span>5 min read</span>
+                        <span>7 min read</span>
                     </div>
                     <h2>TimedDecoderBlocks: Compressing Transformer Efficiency</h2>
                     <p>How temporal dynamics can be leveraged to compress LLM transformer blocks without significant performance loss. A novel approach to making large language models more efficient and accessible.</p>
@@ -554,14 +553,14 @@
                 </div>
             </article>
 
-            <article class="blog-post" onclick="location.href='post.html?post=timed-decoder-blocks'">
+            <article class="blog-post" onclick="location.href='post.html?post=physics-to-ai'">
                 <div class="blog-post-image">
                     <i class="fas fa-flask"></i>
                 </div>
                 <div class="blog-post-content">
                     <div class="blog-post-meta">
                         <span>Aug 28, 2025</span>
-                        <span>4 min read</span>
+                        <span>5 min read</span>
                     </div>
                     <h2>From Physics Dreams to AI Reality</h2>
                     <p>My journey from wanting to be a physicist as a kid to becoming an AI engineer. How the mathematical foundations from physics continue to influence my approach to machine learning problems.</p>
@@ -570,18 +569,18 @@
                         <span class="blog-tag">Career</span>
                         <span class="blog-tag">Physics</span>
                     </div>
-                    <a href="post.html?post=hierarchical-reasoning" class="read-more">Read more</a>
+                    <a href="post.html?post=physics-to-ai" class="read-more" onclick="event.stopPropagation()">Read more</a>
                 </div>
             </article>
 
-            <article class="blog-post">
+            <article class="blog-post" onclick="location.href='post.html?post=agentic-ai'">
                 <div class="blog-post-image">
                     <i class="fas fa-microchip"></i>
                 </div>
                 <div class="blog-post-content">
                     <div class="blog-post-meta">
                         <span>Aug 20, 2025</span>
-                        <span>7 min read</span>
+                        <span>6 min read</span>
                     </div>
                     <h2>The Future of Agentic AI</h2>
                     <p>Exploring the latest advancements in autonomous AI agents and their potential impact on various industries. What does it mean for AI to truly act autonomously and make decisions?</p>
@@ -590,18 +589,18 @@
                         <span class="blog-tag">Automation</span>
                         <span class="blog-tag">Future Tech</span>
                     </div>
-                    <a href="post.html?post=hierarchical-reasoning" class="read-more">Read more</a>
+                    <a href="post.html?post=agentic-ai" class="read-more" onclick="event.stopPropagation()">Read more</a>
                 </div>
             </article>
 
-            <article class="blog-post">
+            <article class="blog-post" onclick="location.href='post.html?post=open-source-ml'">
                 <div class="blog-post-image">
                     <i class="fas fa-cogs"></i>
                 </div>
                 <div class="blog-post-content">
                     <div class="blog-post-meta">
                         <span>Aug 15, 2025</span>
-                        <span>5 min read</span>
+                        <span>4 min read</span>
                     </div>
                     <h2>Open Source ML: Contributing to the Community</h2>
                     <p>Why open source development is crucial for the ML community and how individual contributions can make a significant impact. Tips for getting started with open source ML projects.</p>
@@ -610,7 +609,7 @@
                         <span class="blog-tag">Community</span>
                         <span class="blog-tag">Career Advice</span>
                     </div>
-                    <a href="post.html?post=hierarchical-reasoning" class="read-more">Read more</a>
+                    <a href="post.html?post=open-source-ml" class="read-more" onclick="event.stopPropagation()">Read more</a>
                 </div>
             </article>
         </section>
@@ -633,6 +632,7 @@
     </footer>
 
     <script>
+        
         // Theme toggle functionality
         function toggleTheme() {
             const body = document.body;
@@ -709,17 +709,22 @@
         });
 
         // Add hover effects to blog posts
-        document.querySelectorAll('.blog-post').forEach(post => {
-            post.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-10px) scale(1.02)';
-            });
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTheme();
             
-            post.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) scale(1)';
+            // Add hover effects to blog posts (after DOM is ready)
+            document.querySelectorAll('.blog-post').forEach(post => {
+                post.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px) scale(1.02)';
+                });
+                
+                post.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
             });
         });
 
-        // Category filter functionality (you can expand this)
+        // Category filter functionality
         document.querySelectorAll('.category').forEach(category => {
             category.addEventListener('click', function() {
                 // Remove active class from all categories
@@ -727,15 +732,73 @@
                     cat.style.background = '';
                     cat.style.color = '';
                 });
-                //  Add active state to clicked category
+                
+                // Add active state to clicked category
                 this.style.background = 'var(--crail)';
                 this.style.color = 'white';
+                
                 // Here you can add filtering logic for blog posts
                 console.log(`Filtering by: ${this.textContent}`);
             });
         });
-        // Initialize theme on page load
-        document.addEventListener('DOMContentLoaded', loadTheme);
+
+        const ml = document.getElementById('ml');
+        ml.addEventListener('click', function() {
+            document.querySelectorAll('.blog-post').forEach(post => {
+                // add delay for processing
+                // setTimeout(() => {}, 500);
+                // console.log(post.querySelector('.blog-tag').textContent);
+                if (post.querySelector('.blog-tag').textContent.includes('Learning')) {
+                    post.style.display = 'block';
+                } else {
+                    post.style.display = 'none';
+                }
+            });
+        });
+
+        const dl = document.getElementById('dl');
+        dl.addEventListener('click', function() {
+            document.querySelectorAll('.blog-post').forEach(post => {
+                if (post.querySelector('.blog-tag').textContent.includes('Deep Learning')) {
+                    post.style.display = 'block';
+                } else {
+                    post.style.display = 'none';
+                }
+            });
+        });
+
+        const ai = document.getElementById('ai');
+        ai.addEventListener('click', function() {
+            document.querySelectorAll('.blog-post').forEach(post => {
+                if (post.querySelector('.blog-tag').textContent.includes('AI')) {
+                    post.style.display = 'block';
+                } else {
+                    post.style.display = 'none';
+                }
+            });
+        });
+
+        const physics = document.getElementById('physics');
+
+        physics.addEventListener('click', function() {
+            document.querySelectorAll('.blog-post-tags').forEach(post => {
+                if (post.textContent.toLowerCase().includes('mathematics') || post.textContent.toLowerCase().includes('physics')) {
+                    post.style.display = 'block';
+                } else {
+                    post.style.display = 'none';
+                }
+            });
+        });
+
+
+        const all = document.getElementById('all');
+        all.addEventListener('click', function() {
+            document.querySelectorAll('.blog-post').forEach(post => {
+                post.style.display = 'block';
+            });
+        });
+
+
     </script>
 </body>
 </html>
